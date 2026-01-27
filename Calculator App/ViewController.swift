@@ -17,7 +17,7 @@ class ViewController: UIViewController {
     let button1 = UIButton()
     let button2 = UIButton()
     let button3 = UIButton()
-    
+    let button4 = UIButton()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,12 +66,18 @@ class ViewController: UIViewController {
         button3.setTitleColor(.white, for: .normal)
         button3.backgroundColor = UIColor(red: 58/255, green: 58/255, blue: 58/255, alpha: 1.0)
         button3.titleLabel?.font = .boldSystemFont(ofSize: 30)
+       
+        button4.setTitle("+", for: .normal)
+        button4.setTitleColor(.white, for: .normal)
+        button4.backgroundColor = UIColor(red: 58/255, green: 58/255, blue: 58/255, alpha: 1.0)
+        button4.titleLabel?.font = .boldSystemFont(ofSize: 30)
         
         stackview.translatesAutoresizingMaskIntoConstraints = false
         stackview.axis = .horizontal
         stackview.addArrangedSubview(button1)
         stackview.addArrangedSubview(button2)
         stackview.addArrangedSubview(button3)
+        stackview.addArrangedSubview(button4)
         stackview.spacing = 10
         stackview.distribution = .fillEqually
         
