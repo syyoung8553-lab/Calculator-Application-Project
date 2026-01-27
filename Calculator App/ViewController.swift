@@ -13,16 +13,12 @@ class ViewController: UIViewController {
     
     private var mainnumber : Int = 0
     let label = UILabel()
-    let stackview = UIStackView()
-    let button1 = UIButton()
-    let button2 = UIButton()
-    let button3 = UIButton()
-    let button4 = UIButton()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         ConfigureUI()
-        makeHorizontalStackViewUI()
+        makeVerticalStackView()
     }
 
 //LV1 구현 시작
@@ -49,7 +45,7 @@ class ViewController: UIViewController {
     }
 //LV1 구현 마무리
     
-    private func makeHorizontalStackViewUI(){
+/*    private func makeHorizontalStackViewUI(){
         
         button1.setTitle("7", for: .normal)
         button1.setTitleColor(.white, for: .normal)
@@ -91,13 +87,96 @@ class ViewController: UIViewController {
             }
         
    //LV2 구현 마무리
-
-        
-        
       
     }
+   */
     
     
+    private func makeHorizontalView(_ views: [UIView]) -> UIStackView {
+        let stack = UIStackView(arrangedSubviews: views)
+        stack.axis = .horizontal
+        stack.spacing = 10
+        stack.distribution = .fillEqually
+    
+        
+        return stack
+        
+    }
+    
+    private func makeButton(title: String) -> UIButton {
+        let button = UIButton()
+        button.setTitle(title, for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = UIColor(
+            red: 58/255, green: 58/255, blue: 58/255, alpha: 1
+        )
+        button.layer.cornerRadius = 40
+        button.titleLabel?.font = .boldSystemFont(ofSize: 30)
+        return button
+    }
+    
+    private func makeButtonCalculate(){
+    }
+
+    private func makeVerticalStackView(){
+        
+        let row1 = makeHorizontalView([
+            makeButton(title: "7"),
+            makeButton(title: "8"),
+            makeButton(title: "9"),
+            makeButton(title: "+"),
+        ])
+        
+        let row2 = makeHorizontalView([
+            makeButton(title: "4"),
+            makeButton(title: "5"),
+            makeButton(title: "6"),
+            makeButton(title: "-"),
+        
+        ])
+        
+        let row3 = makeHorizontalView([
+            makeButton(title: "1"),
+            makeButton(title: "2"),
+            makeButton(title: "3"),
+            makeButton(title: "=")
+        ])
+
+        let row4 = makeHorizontalView([
+            makeButton(title: "0"),
+            makeButton(title: "."),
+            makeButton(title: "C"),
+            makeButton(title: "?")
+        ])
+        
+        
+        // 여기서 vertical 스택뷰 생성
+        let verticalStackView = UIStackView(arrangedSubviews: [
+            row1, row2, row3, row4
+        ])
+        
+        verticalStackView.axis = .vertical
+        verticalStackView.spacing = 10
+        verticalStackView.distribution = .fillEqually
+        
+        view.addSubview(verticalStackView)
+        
+        verticalStackView.snp.makeConstraints {
+            $0.width.equalTo(350)
+            $0.top.equalTo(label.snp.bottom).offset(60)
+            $0.centerX.equalToSuperview()
+        
+        }
+        
+        [row1, row2, row3, row4].forEach { row in
+              row.snp.makeConstraints { $0.height.equalTo(80) }
+          }
+        
+    }
 }
+
+//lv3 구현
+
+
 
 
