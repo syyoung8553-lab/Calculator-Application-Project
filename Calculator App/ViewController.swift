@@ -11,7 +11,7 @@ import SnapKit
 
 class ViewController: UIViewController {
     
-    private var mainnumber : Int = 0
+    private var mainnumber : String = ""
     let label = UILabel()
     
     
@@ -108,30 +108,109 @@ class ViewController: UIViewController {
         button.setTitle(title, for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = UIColor(
-            red: 58/255, green: 58/255, blue: 58/255, alpha: 1
+            red: 58/255,
+            green: 58/255,
+            blue: 58/255,
+            alpha: 1
         )
         button.layer.cornerRadius = 40
         button.titleLabel?.font = .boldSystemFont(ofSize: 30)
+        button.addTarget(self, action: #selector(makeButtonTapped), for: .touchDown)
         return button
+        
     }
     
-    private func makeButtonCalculate(){
+    private func makeButton2(title: String) -> UIButton {
+        let button2 = UIButton()
+        button2.setTitle(title, for: .normal)
+        button2.setTitleColor(.white, for: .normal)
+        button2.backgroundColor = UIColor(
+            red: 255/255,
+            green: 172/255,
+            blue: 28/255,
+            alpha: 1
+        )
+        
+        button2.layer.cornerRadius = 40
+        button2.titleLabel?.font = .boldSystemFont(ofSize: 30)
+        button2.addTarget(self, action: #selector(makeButton2Tapped), for: .touchDown)
+        return button2
+    }
+    
+    private func initButton(title: String) -> UIButton {
+        let button2 = UIButton()
+        button2.setTitle(title, for: .normal)
+        button2.setTitleColor(.white, for: .normal)
+        button2.backgroundColor = UIColor(
+            red: 255/255,
+            green: 172/255,
+            blue: 28/255,
+            alpha: 1
+        )
+        
+        button2.layer.cornerRadius = 40
+        button2.titleLabel?.font = .boldSystemFont(ofSize: 30)
+        button2.addTarget(self, action: #selector(initButtonTapped), for: .touchDown)
+        return button2
+    }
+    
+  //lv4,5구현 오랜지색 추가
+    
+    @objc
+    private func makeButtonTapped(sender: UIButton){
+        
+        var currentText = label.text ?? ""
+        let buttonText = sender.title(for: .normal) ?? ""
+        
+        currentText += buttonText
+        
+        if currentText.hasPrefix("0") && currentText.count > 1 {
+            currentText.removeFirst()
+        }
+        //lv6 구현
+        label.text = currentText
+        print("\(sender.title(for: .normal) ?? "")버튼 클릭됨")
+        
     }
 
+    @objc
+    private func makeButton2Tapped(sender: UIButton){
+        var currentText = label.text ?? ""
+        let buttonText = sender.title(for: .normal) ?? ""
+        
+        currentText += buttonText
+        
+        if currentText.hasPrefix("0") && currentText.count > 1 {
+            currentText.removeFirst()
+        }
+        //lv6 구현
+        label.text = currentText
+        
+        print("\(sender.title(for: .normal) ?? "")연산자 버튼 클릭됨")
+    }
+    
+    @objc
+    private func initButtonTapped(sender: UIButton){
+        self.label.text = ""
+        
+        print("\(sender.title(for: .normal) ?? "")초기화 버튼 클릭됨")
+    }
+    
+    
     private func makeVerticalStackView(){
         
         let row1 = makeHorizontalView([
             makeButton(title: "7"),
             makeButton(title: "8"),
             makeButton(title: "9"),
-            makeButton(title: "+"),
+            makeButton2(title: "+"),
         ])
         
         let row2 = makeHorizontalView([
             makeButton(title: "4"),
             makeButton(title: "5"),
             makeButton(title: "6"),
-            makeButton(title: "-"),
+            makeButton2(title: "-"),
         
         ])
         
@@ -139,14 +218,14 @@ class ViewController: UIViewController {
             makeButton(title: "1"),
             makeButton(title: "2"),
             makeButton(title: "3"),
-            makeButton(title: "=")
+            makeButton2(title: "*")
         ])
 
         let row4 = makeHorizontalView([
+            initButton(title: "AC"),
             makeButton(title: "0"),
-            makeButton(title: "."),
-            makeButton(title: "C"),
-            makeButton(title: "?")
+            makeButton2(title: "="),
+            makeButton2(title: "/")
         ])
         
         
@@ -176,7 +255,5 @@ class ViewController: UIViewController {
 }
 
 //lv3 구현
-
-
 
 
