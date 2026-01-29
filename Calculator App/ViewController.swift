@@ -154,8 +154,29 @@ class ViewController: UIViewController {
         return button2
     }
     
+    
+    private func resultButton(title: String) -> UIButton {
+        let button2 = UIButton()
+        button2.setTitle(title, for: .normal)
+        button2.setTitleColor(.white, for: .normal)
+        button2.backgroundColor = UIColor(
+            red: 255/255,
+            green: 172/255,
+            blue: 28/255,
+            alpha: 1
+        )
+        
+        button2.layer.cornerRadius = 40
+        button2.titleLabel?.font = .boldSystemFont(ofSize: 30)
+        button2.addTarget(self, action: #selector(resultButtonTapped), for: .touchDown)
+        return button2
+    }
+    
   //lv4,5구현 오랜지색 추가
     
+ 
+
+
     @objc
     private func makeButtonTapped(sender: UIButton){
         
@@ -178,6 +199,11 @@ class ViewController: UIViewController {
         var currentText = label.text ?? ""
         let buttonText = sender.title(for: .normal) ?? ""
         
+        let button: Set<Character> = ["+", "-", "/", "*"]
+        if let last = currentText.last, button.contains(last) {
+            return
+        }
+        
         currentText += buttonText
         
         if currentText.hasPrefix("0") && currentText.count > 1 {
@@ -196,6 +222,28 @@ class ViewController: UIViewController {
         print("\(sender.title(for: .normal) ?? "")초기화 버튼 클릭됨")
     }
     
+    @objc
+    private func resultButtonTapped(sender: UIButton){
+        if let currentText = label.text {
+            if let result = calculate(expression: currentText){
+                label.text = "\(result)"
+            } else {
+                label.text = "ERROR"
+            }
+        }
+        print("\(sender.title(for: .normal) ?? "")결과 버튼 클릭됨")
+    }
+    
+    
+    func calculate(expression: String) -> Int? {
+            let expression = NSExpression(format: expression)
+        if let result = expression.expressionValue(with: nil, context: nil) as? Int {
+            return result
+        } else {
+            return nil
+        }
+    }
+  //lv8 구현
     
     private func makeVerticalStackView(){
         
@@ -224,7 +272,7 @@ class ViewController: UIViewController {
         let row4 = makeHorizontalView([
             initButton(title: "AC"),
             makeButton(title: "0"),
-            makeButton2(title: "="),
+            resultButton(title: "="),
             makeButton2(title: "/")
         ])
         
@@ -244,15 +292,16 @@ class ViewController: UIViewController {
             $0.width.equalTo(350)
             $0.top.equalTo(label.snp.bottom).offset(60)
             $0.centerX.equalToSuperview()
-        
+            
         }
         
         [row1, row2, row3, row4].forEach { row in
-              row.snp.makeConstraints { $0.height.equalTo(80) }
-          }
+            row.snp.makeConstraints { $0.height.equalTo(80) }
+        }
         
     }
 }
+
 
 //lv3 구현
 
